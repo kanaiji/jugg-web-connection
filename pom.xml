@@ -3,7 +3,6 @@
   <groupId>com.jugg.web</groupId>
   <artifactId>jugg-connection</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
   <name>jugg-web-connection</name>
   
   <parent>
@@ -122,4 +121,5 @@
 		</plugins>
 	</build>
 	
+	<packaging>war</packaging>
 </project>
