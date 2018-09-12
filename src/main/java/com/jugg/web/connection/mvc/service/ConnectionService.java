@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.dao.DB2Dao;
 import com.jugg.web.connection.mvc.dao.MongoDao;
@@ -38,7 +39,7 @@ public class ConnectionService {
 	private RmqProducterService rmqProducterService;
 	
 	
-	public void runSql(String conId, String fileId) {
+	public void runSql(String conId, String fileId) throws SqlInvalidAuthorizationSpecException {
 		
 		Db2Connection db2Connection= mongoDbDao.findConnectionById(conId);
 		if(null == db2Connection) {

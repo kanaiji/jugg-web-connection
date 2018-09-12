@@ -94,9 +94,18 @@ public class RabbitConfig {
     
     /******************* rmq 路由初始化 *************************************/
     
+    public final static String connectionReceiveExchangeName = "connection-receive-direct-route";
+    
     public final static String connectionResultExchangeName = "connection-result-direct-route";
     
     public final static String runErrorExchangeName = "run-error-direct-route";
+    
+    
+    @Bean
+    DirectExchange connectionReceiveDirectExchange() {
+    	logger.info("RMQ-PRODUCTER|info|config-init|connectionReceiveDirectExchange()..route: {}", connectionReceiveExchangeName);
+        return new DirectExchange(connectionReceiveExchangeName);
+    }
     
     
     @Bean
@@ -115,13 +124,23 @@ public class RabbitConfig {
    
     /******************* rmq 路由队列绑定 *********************************/
     
+    public final static String connectionReceiveRouteName = "connection-receive-route-direct-queue";
+    
     public final static String connectionResultRouteName = "connection-result-route-direct-queue";
     
     public final static String runErrorRouteName = "run-error-route-direct-queue";
     
+    
+    @Bean
+    public Binding bindingReceive() {
+    	logger.info("RMQ-PRODUCTER|info|config-init|bindingReceive()..DirectExchange");
+        return BindingBuilder.bind(connectionReceiveQueue()).to(connectionReceiveDirectExchange()).with(connectionReceiveRouteName);
+    }
+    
+    
     @Bean
     public Binding bindingResult() {
-    	logger.info("RMQ-PRODUCTER|info|config-init|bindingExchange()..DirectExchange");
+    	logger.info("RMQ-PRODUCTER|info|config-init|bindingResult()..DirectExchange");
         return BindingBuilder.bind(connectionResultQueue()).to(connectionResultDirectExchange()).with(connectionResultRouteName);
     }
 

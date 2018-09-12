@@ -13,9 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
+import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.db.db2.DatasourceInit;
 import com.jugg.web.connection.mvc.entity.Db2Connection;
+import com.jugg.web.connection.mvc.entity.vo.ErrorQueueVo;
+import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 
 @Service
 public class DB2Dao {
@@ -24,6 +29,9 @@ public class DB2Dao {
 	
 	@Autowired
 	private DatasourceInit datasourceInit;
+	
+	@Autowired
+	private RmqProducterService rmqProducterService;
 	
 //	@Autowired
 //	private DatasourceInit2 datasourceInit2;
@@ -34,8 +42,9 @@ public class DB2Dao {
      * @param pSearchString the search criteria
      * @param pMatchCount
      * @return the results the list of results
+	 * @throws SqlInvalidAuthorizationSpecException 
      */
-	public List<Map<String, String>> getDataResults(Db2Connection db2Connection, String sql) {
+	public List<Map<String, String>> getDataResults(Db2Connection db2Connection, String sql) throws SqlInvalidAuthorizationSpecException {
 
     	Connection connection = null ;
     	
@@ -93,7 +102,12 @@ public class DB2Dao {
 //                connection.close();
             	datasourceInit.closeConnection(db2Connection, connection);
             }
-        } catch (Exception ex) {
+        } catch (SqlInvalidAuthorizationSpecException e) {
+			
+			logger.error("hapend db2 exception..." + e.getMessage());
+//			datasourceInit.removeDatasource(db2Connection);
+			throw e;
+		} catch (Exception ex) {
         	try {
         		if(null != connection)
 				connection.rollback();
@@ -113,8 +127,8 @@ public class DB2Dao {
 		return str;
 	}
 
-    public static void main(String[] args) {
 		
+    public static void main(String[] args) {
     	
     	String sql = "SELECT sum(AMOUNT) FROM SCTID.IBM_FINANCIALS WHERE FINANCIALS_SOURCE in ('WWSIGN','WWSD') AND BRANCH in (176,248,0674,0073,0672,0247,0676,0180,0678,0017,0799) AND DELETED=0 AND QUARTER=1 AND REVENUE_TYPE='Transactional' AND YEAR=2018;";
     	

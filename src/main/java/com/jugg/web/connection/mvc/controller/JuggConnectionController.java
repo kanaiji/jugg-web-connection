@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
+import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 import com.jugg.web.connection.mvc.service.ConnectionService;
 
 
@@ -61,9 +62,11 @@ public class JuggConnectionController {
 		try {
 //			Thread.sleep(3000L);
 			// 调用service
-			
-			rmqProducterService.sendResult("jugg  connection producter test ..");
-			rmqProducterService.sendError("jugg  connection producter test ..");
+			ReceiveQueueVo receiveQueueVo = new ReceiveQueueVo();
+			receiveQueueVo.setConnectionId("5b851eab39c4143c11479ead");
+			receiveQueueVo.setFileId("5b8520aa39c4143c11479eae");
+			String msg = JSONObject.toJSONString(receiveQueueVo);
+			rmqProducterService.sendReceive(msg);
 			return "login";
 		} catch (Exception e) {
 			e.printStackTrace();

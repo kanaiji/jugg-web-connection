@@ -19,16 +19,23 @@ public class RmqProducterService {
     private AmqpTemplate rabbitTemplate;
 
 	
+    public void sendReceive(String msg) {
+		
+		logger.info("RMQ-PRODUCTER|info|sendReceive|msg {}", msg);
+        rabbitTemplate.send(RabbitConfig.connectionReceiveExchangeName, RabbitConfig.connectionReceiveRouteName, new Message(msg.getBytes(),new MessageProperties()));
+        
+    }
+	
 	public void sendResult(String msg) {
 		
-		logger.info("RMQ-PRODUCTER|info|send|msg {}", msg);
+		logger.info("RMQ-PRODUCTER|info|sendResult|msg {}", msg);
         rabbitTemplate.send(RabbitConfig.connectionResultExchangeName, RabbitConfig.connectionResultRouteName, new Message(msg.getBytes(),new MessageProperties()));
         
     }
 	
     public void sendError(String msg) {
 		
-		logger.info("RMQ-PRODUCTER|info|send|msg {}", msg);
+		logger.info("RMQ-PRODUCTER|info|sendError|msg {}", msg);
         rabbitTemplate.send(RabbitConfig.runErrorExchangeName, RabbitConfig.runErrorRouteName, new Message(msg.getBytes(),new MessageProperties()));
         
     }
