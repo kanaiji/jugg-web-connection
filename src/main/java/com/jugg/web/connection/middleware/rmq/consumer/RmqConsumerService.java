@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONObject;
 import com.jugg.web.connection.core.ConnectionTask;
 import com.jugg.web.connection.init.Init;
-import com.jugg.web.connection.mvc.entity.MsgVo;
+import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 import com.rabbitmq.client.Channel;
 
 @Component
@@ -29,7 +29,7 @@ public class RmqConsumerService {
 			byte[] body = message.getBody();
 			String jsonStr =  new String(body, "UTF-8");
 			// fastjson
-	        MsgVo msgVo = JSONObject.parseObject(jsonStr, MsgVo.class);
+	        ReceiveQueueVo msgVo = JSONObject.parseObject(jsonStr, ReceiveQueueVo.class);
 			logger.warn("RmqConsumerService message : " + msgVo.toString());
 			
 			// add message to java local queue..

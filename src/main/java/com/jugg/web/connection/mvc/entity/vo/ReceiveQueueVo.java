@@ -1,15 +1,15 @@
-package com.jugg.web.connection.mvc.entity;
+package com.jugg.web.connection.mvc.entity.vo;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
-public class MsgVo {
+public class ReceiveQueueVo {
 	
 	private String connectionId;
 	
 	private String fileId;
 	
-	public MsgVo() {
+	public ReceiveQueueVo() {
 	}
 
 	public String getConnectionId() {
@@ -36,7 +36,7 @@ public class MsgVo {
 	
 	public static void main(String[] args) {
 		
-		MsgVo msgVo = new MsgVo();
+		ReceiveQueueVo msgVo = new ReceiveQueueVo();
 		msgVo.setConnectionId("111111111111111111");
 		msgVo.setFileId("22222222222222222222");
 		System.out.println(JSONObject.toJSONString(msgVo));

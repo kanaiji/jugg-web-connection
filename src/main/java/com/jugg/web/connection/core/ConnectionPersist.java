@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
-import com.jugg.web.connection.mvc.entity.MsgVo;
+import com.jugg.web.connection.mvc.entity.vo.ErrorQueueVo;
+import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 import com.jugg.web.connection.mvc.service.ConnectionService;
 
 
@@ -33,7 +34,7 @@ public class ConnectionPersist {
      * @param dataType
      * @param hospitalId
      */
-	public void runSql(MsgVo msgVo) throws Exception{
+	public void runSql(ReceiveQueueVo msgVo) throws Exception{
 		
 		connectionService.runSql(msgVo.getConnectionId(), msgVo.getFileId());
 		
@@ -41,9 +42,14 @@ public class ConnectionPersist {
 	
 	
 	//send error msg to queue
-	public void sendError(MsgVo msgVo) {
+	public void sendError(String message, ReceiveQueueVo receiveQueueVo) {
 		
-		String msg = JSONObject.toJSONString(msgVo);
+		ErrorQueueVo errorQueueVo = new ErrorQueueVo();
+		errorQueueVo.setMessage(message);
+		errorQueueVo.setReceiveQueueVo(receiveQueueVo);
+		errorQueueVo.setCode(errorQueueVo.getDb2ErrorCode(message));
+		
+		String msg = JSONObject.toJSONString(errorQueueVo);
 		rmqProducterService.sendError(msg);
 		
 	}

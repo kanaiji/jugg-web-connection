@@ -3,8 +3,9 @@ package com.jugg.web.connection.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
 import com.jugg.web.connection.init.Init;
-import com.jugg.web.connection.mvc.entity.MsgVo;
+import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 
 
 /**
@@ -17,9 +18,9 @@ public class ConnectionTask {
 
 	private ConnectionPersist connectionPersist = Init.connectionPersist;
 
-	private MsgVo msgVo ;
+	private ReceiveQueueVo msgVo ;
 	
-	public ConnectionTask(MsgVo msgVo) {
+	public ConnectionTask(ReceiveQueueVo msgVo) {
 		this.msgVo = msgVo;
 	}
 	
@@ -38,6 +39,14 @@ public class ConnectionTask {
 			// 重置为0，开始下一个task的处理
 			executeCount = 0;
 
+		} catch (SqlInvalidAuthorizationSpecException e) {
+			
+			logger.error("hapend db2 exception..." + e.getMessage());
+			
+			connectionPersist.sendError(e.getMessage(), msgVo);
+			
+			executeCount = 0;
+			return;
 		} catch (Exception e) {
 
 			if (executeCount > executeMaxCount) {
@@ -45,7 +54,8 @@ public class ConnectionTask {
 				executeCount = 0;
 				logger.warn("connection error for executeCount is max count... need send error msg to rabbitmq error_queue.");
 				//send error msg to error queue..again recive
-				connectionPersist.sendError(msgVo);
+				
+				connectionPersist.sendError("run max again, still hapend error",msgVo);
 				return;
 			}
 			logger.error("connection error, executeCount={}, error stack info: {}", executeCount, e); 
