@@ -1,5 +1,8 @@
 package com.jugg.web.connection.core;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,11 @@ public class ConnectionPersist {
 
 	private static Logger logger = LoggerFactory.getLogger(ConnectionPersist.class);
 
+	private static final String receive_vo_key = "receive_vo";
+	
+	private static final String result_key = "result";
+	
+	
     @Autowired
     private ConnectionService connectionService;
 
@@ -36,7 +44,15 @@ public class ConnectionPersist {
      */
 	public void runSql(ReceiveQueueVo msgVo) throws Exception{
 		
-		connectionService.runSql(msgVo.getConnectionId(), msgVo.getFileId());
+		List<Map<String, String>> datas = connectionService.runSql(msgVo.getConnectionId(), msgVo.getFileId());
+		
+		JSONObject json = new JSONObject();
+		json.put(result_key, datas);
+		json.put(receive_vo_key, msgVo);
+		String str = json.toJSONString();
+		rmqProducterService.sendResult(str);
+		
+		logger.info("run sql result is :" + str);
 		
 	}
 	

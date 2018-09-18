@@ -35,32 +35,25 @@ public class ConnectionService {
 	@Autowired
     private DB2Dao dB2Dao;
 	
-	@Autowired
-	private RmqProducterService rmqProducterService;
-	
-	
-	public void runSql(String conId, String fileId) throws SqlInvalidAuthorizationSpecException {
+	public List<Map<String, String>> runSql(String conId, String fileId) throws SqlInvalidAuthorizationSpecException {
 		
 		Db2Connection db2Connection= mongoDbDao.findConnectionById(conId);
 		if(null == db2Connection) {
 			logger.warn("connectionService runSql method : the connectionId no mapping mongo document..so return");
-			return;
+			return null;
 		}
 		logger.info("connection document info: "+db2Connection.toString());
 		
 		JuggFile juggFile = mongoDbDao.findJuggFileById(fileId);
 		if(null == juggFile) {
 			logger.warn("connectionService runSql method : the fileId no mapping mongo document..so return");
-			return;
+			return null ;
 		}
 		logger.info("file document info: "+juggFile.toString());
 		
 		List<Map<String, String>> datas = dB2Dao.getDataResults(db2Connection, juggFile.getFile_content());
+		return datas;
 		
-		String result = JSONObject.toJSONString(datas);
-		rmqProducterService.sendResult(result);
-		
-		logger.info("run sql result is :" + result);
 		
 	}
 	

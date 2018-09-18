@@ -8,6 +8,13 @@ public class ReceiveQueueVo {
 	
 	private String fileId;
 	
+	private String logId;
+	
+	private String type;
+	
+	private String job_id;
+	
+	
 	public ReceiveQueueVo() {
 	}
 
