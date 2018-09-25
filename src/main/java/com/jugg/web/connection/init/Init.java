@@ -26,13 +26,13 @@ public class Init extends HttpServlet{
 
 	private static Logger logger = LoggerFactory.getLogger(Init.class);
 
-	public static TransferQueue<ConnectionTask> tasks = new LinkedTransferQueue<ConnectionTask>();
+	public static final TransferQueue<ConnectionTask> tasks = new LinkedTransferQueue<ConnectionTask>();
 
-	private static ThreadPoolTaskExecutor threadPool;
+	private ThreadPoolTaskExecutor threadPool;
 
 	public static ConnectionPersist connectionPersist;
 	
-	public static SpringContextUtil springContextUtil;
+	public  SpringContextUtil springContextUtil;
 
 	@Override
 	public void init() throws ServletException {
@@ -42,6 +42,7 @@ public class Init extends HttpServlet{
 			threadPool = (ThreadPoolTaskExecutor) springContextUtil.getBean("threadPool");
 			connectionPersist = (ConnectionPersist) springContextUtil.getBean("connectionPersist");
 //			connectionPersist.initPushDataLogFromDB(); // 从数据库中取一次数据用来当系统启动时初始化（此处可优化）
+
 
 			startThread(); // 启动任务处理线程
 
