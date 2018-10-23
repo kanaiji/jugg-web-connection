@@ -48,7 +48,7 @@ public class ConnectionPersist {
 		List<Map<String, String>> datas = connectionService.runSql(msgVo.getConnectionId(), msgVo.getFileId());
 		
 		JSONObject json = new JSONObject();
-		json.put(result_key, datas);
+		json.put(result_key, datas !=null ? datas : "");
 		json.put(receive_vo_key, msgVo);
 		String str = json.toJSONString();
 		rmqProducterService.sendResult(str);
