@@ -14,7 +14,7 @@ public class MsgSendConfirmCallBack implements RabbitTemplate.ConfirmCallback {
 	
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         if (ack) {
-        	logger.info("消息确认成功cause:"+cause);
+        	logger.info("消息确认成功cause:"+cause + " ack:" + ack);
         } else {
         	//处理丢失的消息
         	logger.error("消息确认失败:"+correlationData.getId()+"#cause:"+cause);

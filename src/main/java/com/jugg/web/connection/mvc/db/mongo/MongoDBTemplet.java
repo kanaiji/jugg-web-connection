@@ -421,7 +421,7 @@ public class MongoDBTemplet {
 		
 		MongoDBTemplet mongoDBTemplet = MongoDBTemplet.getInstance("9.42.89.202", 27017);
 			
-		 String dbName = "Connection";
+		 String dbName = "jugg";
 		 
 		 List<String> list = mongoDBTemplet.getAllCollections(dbName);
 		 

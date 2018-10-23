@@ -7,7 +7,7 @@
 
 
 	<!-- 初始化设置 -->
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>init-app</servlet-name>
 		<servlet-class>com.jugg.web.connection.init.Init</servlet-class>
 		<load-on-startup>2</load-on-startup>
@@ -15,7 +15,7 @@
 	<servlet-mapping>
 		<servlet-name>init-app</servlet-name>
 		<url-pattern>/init/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 	
 
 	<welcome-file-list>

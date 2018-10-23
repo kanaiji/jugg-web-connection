@@ -11,8 +11,6 @@ public class ErrorQueueVo {
      
      private String message;
      
-     private ReceiveQueueVo receiveQueueVo;
-     
      public ErrorQueueVo() {
 	 }
 
@@ -32,17 +30,9 @@ public class ErrorQueueVo {
 		this.message = message;
 	}
 
-	public ReceiveQueueVo getReceiveQueueVo() {
-		return receiveQueueVo;
-	}
-
-	public void setReceiveQueueVo(ReceiveQueueVo receiveQueueVo) {
-		this.receiveQueueVo = receiveQueueVo;
-	}
-
 	@Override
 	public String toString() {
-		return "ErrorQueueVo [code=" + code + ", message=" + message + ", receiveQueueVo=" + receiveQueueVo + "]";
+		return "ErrorQueueVo [code=" + code + ", message=" + "message ]";
 	}
      
      

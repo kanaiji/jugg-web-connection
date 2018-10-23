@@ -29,6 +29,7 @@ public class ConnectionPersist {
 	
 	private static final String result_key = "result";
 	
+	private static final String error_key = "error";
 	
     @Autowired
     private ConnectionService connectionService;
@@ -62,11 +63,14 @@ public class ConnectionPersist {
 		
 		ErrorQueueVo errorQueueVo = new ErrorQueueVo();
 		errorQueueVo.setMessage(message);
-		errorQueueVo.setReceiveQueueVo(receiveQueueVo);
 		errorQueueVo.setCode(errorQueueVo.getDb2ErrorCode(message));
 		
-		String msg = JSONObject.toJSONString(errorQueueVo);
-		rmqProducterService.sendError(msg);
+		JSONObject json = new JSONObject();
+		json.put(error_key, errorQueueVo);
+		json.put(receive_vo_key, receiveQueueVo);
+		String str = json.toJSONString();
+		
+		rmqProducterService.sendError(str);
 		
 	}
 	

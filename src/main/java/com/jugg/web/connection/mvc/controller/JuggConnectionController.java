@@ -36,13 +36,18 @@ public class JuggConnectionController {
 	@ResponseBody
 	public String test(String orderId) {
 		try {
-//			Thread.sleep(3000L);
+			Thread.sleep(3000L);
 			JSONObject json = new JSONObject();
-			json.put("username", "admin");
-			json.put("password", "123qwe");
-			json.put("host", "9.42.89.202");
-			json.put("port", "5672");
-			rmqProducterService.sendResult(json.toJSONString());
+			json.put("job_id", "4432");
+			json.put("type", "SQL");
+			json.put("connectionId", "5b851eab39c4143c11479ead");
+			json.put("fileId", "5b8520aa39c4143c11479eae");
+			json.put("logId", 1131);
+			
+			System.out.println(json.toJSONString() + " lenth :" + json.toJSONString().length());
+//			rmqProducterService.sendResult(json.toJSONString());
+			
+			rmqProducterService.sendReceive(json.toJSONString());
 			
 			return "success";
 		} catch (Exception e) {

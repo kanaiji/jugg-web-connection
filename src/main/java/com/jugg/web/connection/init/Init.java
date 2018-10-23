@@ -4,6 +4,7 @@ import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.TransferQueue;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import com.jugg.web.connection.core.beanfactory.SpringContextUtil;
 /**
  * 功能说明：处理业务
  */
+@WebServlet(name="init-app", urlPatterns= {"/init/*"}, loadOnStartup=2)
 public class Init extends HttpServlet{
 	
 	/**

@@ -25,7 +25,7 @@ public class CommonConts {
 	
 	public static final int MONGO_DB_PORT = 27017;
 	
-	public static final String MONGO_DB_NAME = "Connection";
+	public static final String MONGO_DB_NAME = "jugg"; //Connection
 	
 	public static final String MONGO_CONNECTION_NAME_CONNETION = "connection";
 	

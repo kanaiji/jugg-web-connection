@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
-import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.dao.DB2Dao;
 import com.jugg.web.connection.mvc.dao.MongoDao;
 import com.jugg.web.connection.mvc.entity.Db2Connection;
