@@ -1,10 +1,12 @@
 package com.jugg.web.connection.core;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,7 @@ public class ConnectionPersist {
 		JSONObject json = new JSONObject();
 		json.put(result_key, datas !=null ? datas : "");
 		json.put(receive_vo_key, msgVo);
-		String str = json.toJSONString();
+		String str = json.toString();
 		rmqProducterService.sendResult(str);
 		
 		logger.info("run sql result is :" + str);
@@ -70,7 +72,11 @@ public class ConnectionPersist {
 		json.put(receive_vo_key, receiveQueueVo);
 		String str = json.toJSONString();
 		
-		rmqProducterService.sendError(str);
+		try {
+			rmqProducterService.sendError(str);
+		} catch (AmqpException | UnsupportedEncodingException e) {
+			logger.error("ConnectionPersist.sendError()| the queue msg is String type, happend 'AmqpException | UnsupportedEncodingException' when String get byte[] and set Utf-8.. ");
+		}
 		
 	}
 	

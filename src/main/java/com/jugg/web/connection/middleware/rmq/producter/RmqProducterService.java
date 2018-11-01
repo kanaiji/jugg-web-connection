@@ -1,7 +1,10 @@
 package com.jugg.web.connection.middleware.rmq.producter;
 
+import java.io.UnsupportedEncodingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -33,10 +36,10 @@ public class RmqProducterService {
         
     }
 	
-    public void sendError(String msg) {
+    public void sendError(String msg) throws AmqpException, UnsupportedEncodingException {
 		
 		logger.info("RMQ-PRODUCTER|info|sendError|msg {}", msg);
-        rabbitTemplate.send(RabbitConfig.runErrorExchangeName, RabbitConfig.runErrorRouteName, new Message(msg.getBytes(),new MessageProperties()));
+        rabbitTemplate.send(RabbitConfig.runErrorExchangeName, RabbitConfig.runErrorRouteName, new Message(msg.getBytes("utf-8"),new MessageProperties()));
         
     }
 

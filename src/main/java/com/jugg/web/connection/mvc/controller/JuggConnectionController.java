@@ -1,5 +1,10 @@
 package com.jugg.web.connection.mvc.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
+import com.jugg.web.connection.mvc.entity.ApiCommonResultVo;
 import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 import com.jugg.web.connection.mvc.service.ConnectionService;
 
@@ -21,11 +27,41 @@ import com.jugg.web.connection.mvc.service.ConnectionService;
 @RequestMapping("/jugg/connection/")
 public class JuggConnectionController {
 
+	
+	private Logger log = LoggerFactory.getLogger(JuggConnectionController.class);
+	
+	
 	@Autowired
 	private RmqProducterService rmqProducterService;
 	
 	@Autowired
 	private ConnectionService connectionService;
+	
+	
+	
+	/**
+	 * api 执行 connection 逻辑
+	 * @param ReceiveQueueVo 提供api 接口
+	 * @return
+	 */
+	@RequestMapping("run")
+	@ResponseBody
+	public ApiCommonResultVo run(ReceiveQueueVo receiveQueueVo) {
+		try {
+			// 调用service
+			List<Map<String, String>> datas = connectionService.runSql(receiveQueueVo.getConnectionId(), receiveQueueVo.getFileId());
+			
+			return new ApiCommonResultVo(0, "success", datas);
+		} catch (Exception e) {
+			log.error("JuggConnectionController|run() happend error ....", e);
+			return new ApiCommonResultVo(-1, "发生异常", "");
+		}
+
+	}
+	
+	
+	
+	
 	
 	
 
@@ -82,27 +118,7 @@ public class JuggConnectionController {
 	
 	
 	
-	/**
-	 * test mongodb
-	 * @param orderId
-	 * @return
-	 */
-	@RequestMapping("mgoTest")
-	@ResponseBody
-	public String mgoTest(String id) {
-		try {
-//			Thread.sleep(3000L);
-			// 调用service
-			
-			connectionService.runSql(id, "5b8520aa39c4143c11479eae");
-			
-			return "success";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-
-	}
+	
 	
 	
 	
