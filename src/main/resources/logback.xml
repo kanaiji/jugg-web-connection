@@ -1,101 +1,151 @@
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
 	<property resource="logback.properties" />
-	
-	<contextName>${context.name}</contextName>                         <!-- project name -->
    
+    <!-- <define  name="LOG_PATH" class="com.wsjc.common.core.log.LogbackCustomName" />  -->
+    
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>${conversion.pattern}</pattern>
-		</encoder>
+           <!--  格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH} %-5level %logger{50}[%line]: %m%n</pattern>
+        </encoder>
+        <!-- 此日志文件只记录debug级别的 -->
+        <!-- <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> -->
 	</appender>
 	
-	<!-- root file log -->
-	<appender name="root-file-error"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir}/${context.name}/error.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.dir}/${context.name}/error.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${max.file.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<maxHistory>${max.history}</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>${conversion.pattern}</pattern>
-		</encoder>
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
-			<level>ERROR</level>   
-			<onMatch>ACCEPT</onMatch>   
-			<onMismatch>DENY</onMismatch>   
-		</filter> 
-	</appender>
-	<appender name="root-file-warn"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir}/${context.name}/warn.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.dir}/${context.name}/warn.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${max.file.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<maxHistory>${max.history}</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>${conversion.pattern}</pattern>
-		</encoder>
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
-			<level>warn</level>   
-			<onMatch>ACCEPT</onMatch>   
-			<onMismatch>DENY</onMismatch>   
-		</filter> 
-	</appender>
-	<appender name="root-file-info"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir}/${context.name}/info.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.dir}/${context.name}/info.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${max.file.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<maxHistory>${max.history}</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>${conversion.pattern}</pattern>
-		</encoder>
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
-			<level>INFO</level>   
-			<onMatch>ACCEPT</onMatch>   
-			<onMismatch>DENY</onMismatch>   
-		</filter> 
-	</appender>
-	<appender name="root-file-debug"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${log.dir}/${context.name}/debug.log</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.dir}/${context.name}/debug.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip</fileNamePattern>
-			<timeBasedFileNamingAndTriggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<maxFileSize>${max.file.size}</maxFileSize>
-			</timeBasedFileNamingAndTriggeringPolicy>
-			<maxHistory>${max.history}</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<pattern>${conversion.pattern}</pattern>
-		</encoder>
-		<filter class="ch.qos.logback.classic.filter.LevelFilter">   
-			<level>debug</level>   
-			<onMatch>ACCEPT</onMatch>   
-			<onMismatch>DENY</onMismatch>   
-		</filter> 
-	</appender>
-	<root level="${root.level}">
+	<!-- 日志记录器，日期滚动记录 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <!-- <file>${LOG_PATH}/${APP_DIR}/log_error.log</file> -->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${log.dir}/${context.name}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{50}[%line]: %m%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录error级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    
+	<!-- 日志记录器，日期滚动记录 -->
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <!-- <file>${LOG_PATH}/${APP_DIR}/log_warn.log</file> -->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${log.dir}/${context.name}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{50}[%line]: %m%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录warn级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    
+	<!-- 日志记录器，日期滚动记录 -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <!-- <file>${LOG_PATH}/${APP_DIR}/log-info-%d{yyyy-MM-dd}.%i.log</file> -->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${log.dir}/${context.name}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{50}[%line]: %m%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    
+	<!-- 日志记录器，日期滚动记录 -->
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <!-- <file>${LOG_PATH}/${APP_DIR}/log_debug.log</file> -->
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档的日志文件的路径，例如今天是2013-12-21日志，当前写的日志文件路径为file节点指定，可以将此文件与file指定文件路径设置为不同路径，从而将当前日志文件或归档日志文件置不同的目录。
+            而2013-12-21的日志文件在由fileNamePattern指定。%d{yyyy-MM-dd}指定日期格式，%i指定索引 -->
+            <fileNamePattern>${log.dir}/${context.name}/debug/log-debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过2M，若超过2M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{50}[%line]: %m%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录debug级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    
+	<root level="info">
 		<appender-ref ref="console" />
-		<appender-ref ref="root-file-error"/>
-		<appender-ref ref="root-file-warn"/>
-		<appender-ref ref="root-file-info"/>
-		<appender-ref ref="root-file-debug"/>
+		<appender-ref ref="error"/>
+		<appender-ref ref="warn"/>
+		<appender-ref ref="info"/>
+		<appender-ref ref="debug"/>
 	</root>
 
 </configuration>
