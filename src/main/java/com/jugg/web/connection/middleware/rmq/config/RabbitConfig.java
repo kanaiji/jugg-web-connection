@@ -41,7 +41,7 @@ public class RabbitConfig {
 	@Value("${spring.rabbitmq.publisher-confirms}")
 	private String mqRabbitPublisherConfirms;
 	
-	@Bean
+	@Bean("connectionFactory")
 	public ConnectionFactory connectionFactory() {
 	    CachingConnectionFactory connectionFactory = new CachingConnectionFactory(this.mqRabbitHost,Integer.valueOf(this.mqRabbitPort));
 	    connectionFactory.setUsername(this.mqRabbitUserName);
@@ -73,7 +73,7 @@ public class RabbitConfig {
 	
 	public final static String runErrorQueueName = "run-error-queue";
 
-	@Bean
+	@Bean("connection_receive_queue")
     public Queue connectionReceiveQueue() {
     	logger.info("RMQ-PRODUCTER|info|config-init|connectionReceiveQueue()..queueName: {}", connectionReceiveQueueName);
         return new Queue(connectionReceiveQueueName, true);

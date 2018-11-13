@@ -13,14 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.Maps;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.db.db2.DatasourceInit;
 import com.jugg.web.connection.mvc.entity.Db2Connection;
-import com.jugg.web.connection.mvc.entity.vo.ErrorQueueVo;
-import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 
 @Service
 public class DB2Dao {
@@ -138,7 +136,12 @@ public class DB2Dao {
 	}
     
     
-    
+    public void testConnection(Db2Connection db2Connection) throws Exception{
+    	
+		DruidDataSource dataSource = datasourceInit.testConnection(db2Connection);
+		dataSource.close();
+    	
+    }
     
     
     

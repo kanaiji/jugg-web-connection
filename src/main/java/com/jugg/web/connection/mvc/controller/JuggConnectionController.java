@@ -1,18 +1,17 @@
 package com.jugg.web.connection.mvc.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.entity.ApiCommonResultVo;
+import com.jugg.web.connection.mvc.entity.Db2Connection;
 import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 import com.jugg.web.connection.mvc.service.ConnectionService;
 
@@ -40,22 +39,44 @@ public class JuggConnectionController {
 	
 	
 	/**
-	 * api 执行 connection 逻辑
-	 * @param ReceiveQueueVo 提供api 接口
+	 * test db2 conneciton info
+	 * @param ReceiveQueueVo 
 	 * @return
 	 */
-	@RequestMapping("run")
+	@RequestMapping("testConnection")
 	@ResponseBody
-	public ApiCommonResultVo run(ReceiveQueueVo receiveQueueVo) {
-		try {
-			// 调用service
-			List<Map<String, String>> datas = connectionService.runSql(receiveQueueVo.getConnectionId(), receiveQueueVo.getFileId());
-			
-			return new ApiCommonResultVo(0, "success", datas);
-		} catch (Exception e) {
-			log.error("JuggConnectionController|run() happend error ....", e);
-			return new ApiCommonResultVo(-1, "发生异常", "");
-		}
+	public ApiCommonResultVo testConnection(Db2Connection db2Connection) {
+		
+		log.info("JuggConnectionController|testConnection() | params = " + db2Connection.toString());
+		String db2name = db2Connection.getDatabase();
+        String host = db2Connection.getHostname();
+        String port = db2Connection.getPort();
+        String user = db2Connection.getUser_id();
+        String pass = db2Connection.getPassword();
+		
+        if(StringUtils.isEmpty(db2name)) {
+        	log.info("JuggConnectionController|testConnection() | db2name is null");
+        	return new ApiCommonResultVo(-1, "db2name is null", "");
+        }
+        if(StringUtils.isEmpty(host)) {
+        	log.info("JuggConnectionController|testConnection() | host is null");
+        	return new ApiCommonResultVo(-1, "host is null", "");
+        }
+        if(StringUtils.isEmpty(port)) {
+        	log.info("JuggConnectionController|testConnection() | port is null");
+        	return new ApiCommonResultVo(-1, "port is null", "");
+        }
+        if(StringUtils.isEmpty(user)) {
+        	log.info("JuggConnectionController|testConnection() | user is null");
+        	return new ApiCommonResultVo(-1, "user is null", "");
+        }
+        if(StringUtils.isEmpty(pass)) {
+        	log.info("JuggConnectionController|testConnection() | pass is null");
+        	return new ApiCommonResultVo(-1, "pass is null", "");
+        }
+        
+		// 调用service
+		return connectionService.testConnection(db2Connection);
 
 	}
 	

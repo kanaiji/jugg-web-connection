@@ -11,64 +11,60 @@ import org.springframework.stereotype.Service;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
 import com.jugg.web.connection.mvc.dao.DB2Dao;
 import com.jugg.web.connection.mvc.dao.MongoDao;
+import com.jugg.web.connection.mvc.entity.ApiCommonResultVo;
 import com.jugg.web.connection.mvc.entity.Db2Connection;
 import com.jugg.web.connection.mvc.entity.JuggFile;
 
 //import com.jugg.web.connection.db.db2.DB2Operation;
 
 /**
- * connection 
+ * connection
+ * 
  * @author Tony
  *
  */
 @Service
 public class ConnectionService {
 
-	
 	private Logger logger = LoggerFactory.getLogger(ConnectionService.class);
-	
+
 	@Autowired
-    private MongoDao mongoDbDao;
-	
+	private MongoDao mongoDbDao;
+
 	@Autowired
-    private DB2Dao dB2Dao;
-	
+	private DB2Dao dB2Dao;
+
 	public List<Map<String, String>> runSql(String conId, String fileId) throws SqlInvalidAuthorizationSpecException {
-		
-		Db2Connection db2Connection= mongoDbDao.findConnectionById(conId);
-		if(null == db2Connection) {
+
+		Db2Connection db2Connection = mongoDbDao.findConnectionById(conId);
+		if (null == db2Connection) {
 			logger.warn("connectionService runSql method : the connectionId no mapping mongo document..so return");
 			return null;
 		}
-		logger.info("connection document info: "+db2Connection.toString());
-		
+		logger.info("connection document info: " + db2Connection.toString());
+
 		JuggFile juggFile = mongoDbDao.findJuggFileById(fileId);
-		if(null == juggFile) {
+		if (null == juggFile) {
 			logger.warn("connectionService runSql method : the fileId no mapping mongo document..so return");
-			return null ;
+			return null;
 		}
-		logger.info("file document info: "+juggFile.toString());
-		
+		logger.info("file document info: " + juggFile.toString());
+
 		List<Map<String, String>> datas = dB2Dao.getDataResults(db2Connection, juggFile.getFile_content());
 		return datas;
-		
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public ApiCommonResultVo testConnection(Db2Connection db2Connection){
+
+		try {
+			dB2Dao.testConnection(db2Connection);
+			return new ApiCommonResultVo(0, "success", "");
+		} catch (Exception e) {
+			logger.error("DB2Dao|testConnection() happend error ....", e);
+			return new ApiCommonResultVo(-1, "system exception, please call admin", "");
+		}
+
+	}
+
 }

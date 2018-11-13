@@ -45,7 +45,6 @@ public class Init extends HttpServlet{
 			connectionPersist = (ConnectionPersist) springContextUtil.getBean("connectionPersist");
 //			connectionPersist.initPushDataLogFromDB(); // 从数据库中取一次数据用来当系统启动时初始化（此处可优化）
 
-
 			startThread(); // 启动任务处理线程
 
 			logger.warn("connection|starting...successful");
@@ -58,13 +57,13 @@ public class Init extends HttpServlet{
 	}
 	
 	/**
-	 * 优化 线程的销毁 和 开辟所浪费的资源 PS : 2核 的cpu ,最大线程数设置4 ，核心设置为2 ，缓冲队列也是4
+	 * 优化 线程的销毁 和 开辟所浪费的资源 PS : 2核 的cpu ,最大线程数设置10 ，核心设置为2 ，缓冲队列也是10000
 	 */
 	private void startThread() {
 		logger.warn("connection|startThread...");
 
-		for (int i = 0; i < 1; i++) {
-//			for (int i = 0; i < threadPool.getMaxPoolSize(); i++) {
+//		for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < threadPool.getMaxPoolSize(); i++) {
 
 			threadPool.execute(new Runnable() {
 				

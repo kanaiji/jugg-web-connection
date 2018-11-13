@@ -122,6 +122,45 @@ public class DatasourceInit {
     	
     }
     
+    /**
+     * test db2 connection info yes or no..
+     * @param db2Connection
+     * @return
+     */
+    public DruidDataSource testConnection(Db2Connection db2Connection) {
+
+    	logger.info("testing this connection info." + db2Connection.toString());
+    	 
+        String db2name = db2Connection.getDatabase();
+        String host = db2Connection.getHostname();
+        String port = db2Connection.getPort();
+        String user = db2Connection.getUser_id();
+        String pass = db2Connection.getPassword();
+        
+        String url = "jdbc:db2://" + host + ":"+ port + "/"+ db2name ; //+ "?characterEncoding=utf8" ;
+        
+        logger.info("Creating datasource for url=" + url + "... user=" + user);
+
+		DruidDataSource datasource = new DruidDataSource();
+		
+		datasource.setUrl(url);
+		datasource.setDriverClassName("com.ibm.db2.jcc.DB2Driver");
+		datasource.setUsername(user);
+		datasource.setPassword(pass);
+		datasource.setInitialSize(1);
+		datasource.setMinIdle(3);
+		datasource.setMaxWait(120000);
+		//max connection total
+		datasource.setMaxActive(3);
+		datasource.setMinEvictableIdleTimeMillis(300000);
+//        datasource.setTimeBetweenEvictionRunsMillis(60000);
+//        datasource.setTestWhileIdle(true);
+//        datasource.setTestOnBorrow(true);
+//        datasource.setTestOnReturn(false);
+//        datasource.setPoolPreparedStatements(true);
+        return datasource;
+        
+    }
     
     
     

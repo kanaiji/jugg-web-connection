@@ -14,8 +14,8 @@ public class ThreadPoolConfig {
 		ThreadPoolTaskExecutor threadPool = new ThreadPoolTaskExecutor();
 		threadPool.setCorePoolSize(2);
 		threadPool.setKeepAliveSeconds(10000);
-		threadPool.setMaxPoolSize(4);
-		threadPool.setQueueCapacity(6);
+		threadPool.setMaxPoolSize(10);
+		threadPool.setQueueCapacity(10000);
 	    return threadPool;
 	}
 
