@@ -36,9 +36,13 @@ public class CommonConts {
 	
 	
 	/** rabbit mq config info . **/
+	public static final int DB2_ERROR_CODE_UNKNOW = 400;  // unknow excepiton
 	
+	public static final int DB2_ERROR_CODE_HOSTNAME = 401;  // unknow hostname
 	
+	public static final int DB2_ERROR_CODE_AUTH = 402;  // user or password is incorrect
 	
+	public static final int DB2_ERROR_CODE_CONNECTION = 403;   // unknow port or database
 	
 
 }

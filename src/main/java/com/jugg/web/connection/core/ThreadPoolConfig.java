@@ -12,7 +12,7 @@ public class ThreadPoolConfig {
     @Bean
 	public ThreadPoolTaskExecutor threadPool() {
 		ThreadPoolTaskExecutor threadPool = new ThreadPoolTaskExecutor();
-		threadPool.setCorePoolSize(2);
+		threadPool.setCorePoolSize(8);
 		threadPool.setKeepAliveSeconds(10000);
 		threadPool.setMaxPoolSize(10);
 		threadPool.setQueueCapacity(10000);

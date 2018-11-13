@@ -30,15 +30,15 @@ public class ReciveQueueConsumerMessageListener implements ChannelAwareMessageLi
 	        ReceiveQueueVo msgVo = JSONObject.parseObject(jsonStr, ReceiveQueueVo.class);
 			
 			// add message to java local queue..
-			Init.tasks.put(new ConnectionTask(msgVo));
-			
-            MessageProperties messageProperties = message.getMessageProperties();
+	        MessageProperties messageProperties = message.getMessageProperties();
+	        long tag = messageProperties.getDeliveryTag();
+			Init.tasks.put(new ConnectionTask(msgVo, channel, tag));
             
 			// 显示调用channel.basicAck(envelope.getDeliveryTag(), false);来告诉消息服务器来删除消息
             
-            channel.basicAck(messageProperties.getDeliveryTag(), false); 
+//            channel.basicAck(messageProperties.getDeliveryTag(), false); 
             
-            logger.info("consumer recive queue message success.. : " + msgVo.toString());
+//            logger.info("consumer recive queue message success.. : " + msgVo.toString());
 		} catch (Exception e) {
 			
 			// requeue：true again add queue，false：discard the message，delete it .

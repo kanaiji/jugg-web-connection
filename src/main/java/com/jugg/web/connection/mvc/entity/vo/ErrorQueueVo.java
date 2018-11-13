@@ -7,18 +7,18 @@ package com.jugg.web.connection.mvc.entity.vo;
  */
 public class ErrorQueueVo {
 	
-	 private String code ;
+	 private int code ;
      private String message;
      private String details;
      
      public ErrorQueueVo() {
 	 }
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

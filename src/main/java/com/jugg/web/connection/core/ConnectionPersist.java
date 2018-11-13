@@ -61,12 +61,12 @@ public class ConnectionPersist {
 	
 	
 	//send error msg to queue
-	public void sendError(String message, String details, ReceiveQueueVo receiveQueueVo) {
+	public void sendError(String message, String details, int code, ReceiveQueueVo receiveQueueVo) {
 		
 		ErrorQueueVo errorQueueVo = new ErrorQueueVo();
 		errorQueueVo.setMessage(message);
 		errorQueueVo.setDetails(details);
-		errorQueueVo.setCode(errorQueueVo.getDb2ErrorCode(message));
+		errorQueueVo.setCode(code);
 		
 		JSONObject json = new JSONObject();
 		json.put(error_key, errorQueueVo);
