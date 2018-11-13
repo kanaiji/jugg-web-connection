@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ibm.db2.jcc.am.DisconnectNonTransientConnectionException;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
+import com.ibm.db2.jcc.am.SqlNonTransientConnectionException;
 import com.jugg.web.connection.mvc.dao.DB2Dao;
 import com.jugg.web.connection.mvc.dao.MongoDao;
 import com.jugg.web.connection.mvc.entity.ApiCommonResultVo;
@@ -34,7 +36,7 @@ public class ConnectionService {
 	@Autowired
 	private DB2Dao dB2Dao;
 
-	public List<Map<String, String>> runSql(String conId, String fileId) throws SqlInvalidAuthorizationSpecException {
+	public List<Map<String, String>> runSql(String conId, String fileId) throws Exception {
 
 		Db2Connection db2Connection = mongoDbDao.findConnectionById(conId);
 		if (null == db2Connection) {
@@ -60,11 +62,20 @@ public class ConnectionService {
 		try {
 			dB2Dao.testConnection(db2Connection);
 			return new ApiCommonResultVo(0, "success", "");
+		} catch (SqlNonTransientConnectionException e) {
+			logger.error("DB2Dao|testConnection() happend error ....", e);
+			return new ApiCommonResultVo(-2, "unknow hostname", e.getMessage());
+		} catch (SqlInvalidAuthorizationSpecException e) {
+			logger.error("DB2Dao|testConnection() happend error ....", e);
+			return new ApiCommonResultVo(-2, "user or password is incorrect", e.getMessage());
+		} catch (DisconnectNonTransientConnectionException e) {
+			logger.error("DB2Dao|testConnection() happend error ....", e);
+			return new ApiCommonResultVo(-3, "unknow port or database", e.getMessage());
 		} catch (Exception e) {
 			logger.error("DB2Dao|testConnection() happend error ....", e);
-			return new ApiCommonResultVo(-1, "system exception, please call admin", "");
+			return new ApiCommonResultVo(-3, "system exception, please call admin", e.getMessage());
 		}
-
+		
 	}
-
+	
 }

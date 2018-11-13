@@ -85,7 +85,7 @@ public class RabbitConfig {
         return new Queue(connectionResultQueueName, true);
     }
     
-    @Bean
+    @Bean("run_error_queue")
     public Queue runErrorQueue() {
     	logger.info("RMQ-PRODUCTER|info|config-init|runErrorQueue()..queueName: {}", runErrorQueueName);
         return new Queue(runErrorQueueName, true);

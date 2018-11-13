@@ -8,8 +8,8 @@ package com.jugg.web.connection.mvc.entity.vo;
 public class ErrorQueueVo {
 	
 	 private String code ;
-     
      private String message;
+     private String details;
      
      public ErrorQueueVo() {
 	 }
@@ -28,6 +28,14 @@ public class ErrorQueueVo {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 	@Override

@@ -3,7 +3,9 @@ package com.jugg.web.connection.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ibm.db2.jcc.am.DisconnectNonTransientConnectionException;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
+import com.ibm.db2.jcc.am.SqlNonTransientConnectionException;
 import com.jugg.web.connection.init.Init;
 import com.jugg.web.connection.mvc.entity.vo.ReceiveQueueVo;
 
@@ -40,11 +42,18 @@ public class ConnectionTask {
 			executeCount = 0;
 
 		} catch (SqlInvalidAuthorizationSpecException e) {
-			
-			logger.error("hapend db2 exception..." + e.getMessage());
-			
-			connectionPersist.sendError(e.getMessage(), msgVo);
-			
+			logger.error("hapend db2 exception..." , e);
+			connectionPersist.sendError("user or password is incorrect", e.getMessage(), msgVo);
+			executeCount = 0;
+			return;
+		} catch (SqlNonTransientConnectionException e) {
+			logger.error("hapend db2 exception..." , e);
+			connectionPersist.sendError("unknow hostname", e.getMessage(), msgVo);
+			executeCount = 0;
+			return;
+		} catch (DisconnectNonTransientConnectionException e) {
+			logger.error("hapend db2 exception..." , e);
+			connectionPersist.sendError("unknow port or database", e.getMessage(), msgVo);
 			executeCount = 0;
 			return;
 		} catch (Exception e) {
@@ -55,7 +64,7 @@ public class ConnectionTask {
 				logger.warn("connection error for executeCount is max count... need send error msg to rabbitmq error_queue.");
 				//send error msg to error queue..again recive
 				
-				connectionPersist.sendError("run max again, still hapend error",msgVo);
+				connectionPersist.sendError("run max again, still hapend error", "unknow..look up log file ", msgVo);
 				return;
 			}
 			logger.error("connection error, executeCount={}, error stack info: {}", executeCount, e); 

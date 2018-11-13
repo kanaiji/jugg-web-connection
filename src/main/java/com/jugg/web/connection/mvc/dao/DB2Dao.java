@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.collect.Maps;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
-import com.jugg.web.connection.middleware.rmq.producter.RmqProducterService;
 import com.jugg.web.connection.mvc.db.db2.DatasourceInit;
 import com.jugg.web.connection.mvc.entity.Db2Connection;
 
@@ -27,9 +26,6 @@ public class DB2Dao {
 	
 	@Autowired
 	private DatasourceInit datasourceInit;
-	
-	@Autowired
-	private RmqProducterService rmqProducterService;
 	
 //	@Autowired
 //	private DatasourceInit2 datasourceInit2;
@@ -139,6 +135,14 @@ public class DB2Dao {
     public void testConnection(Db2Connection db2Connection) throws Exception{
     	
 		DruidDataSource dataSource = datasourceInit.testConnection(db2Connection);
+		Connection connection = dataSource.getConnection() ;
+		String sql = "SELECT current date FROM sysibm.sysdummy1;";
+		PreparedStatement ps = connection.prepareStatement(sql);
+     	logger.info("Executing database query...sql :"+ sql);
+        ResultSet rs = ps.executeQuery();
+        rs.close();
+        ps.close();
+        connection.close();
 		dataSource.close();
     	
     }

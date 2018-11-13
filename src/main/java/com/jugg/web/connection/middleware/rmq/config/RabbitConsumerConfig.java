@@ -12,6 +12,9 @@ import com.jugg.web.connection.middleware.rmq.consumer.ReciveQueueConsumerMessag
 @Configuration
 public class RabbitConsumerConfig {
 
+	
+	//run_error_queue
+	//connection_receive_queue
 	@Bean
 	public SimpleMessageListenerContainer messageContainer(@Qualifier("connectionFactory") ConnectionFactory connectionFactory,
 			@Qualifier("connection_receive_queue") Queue queue) {
@@ -26,7 +29,7 @@ public class RabbitConsumerConfig {
 		container.setMaxConcurrentConsumers(1);
 		container.setConcurrentConsumers(1);
 		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-//		container.setMessageListener(new ReciveQueueConsumerMessageListener());
+		container.setMessageListener(new ReciveQueueConsumerMessageListener());
 		return container;
 	}
 	
