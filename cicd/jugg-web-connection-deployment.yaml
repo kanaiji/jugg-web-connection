@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: jugg-web-connection
-        image: 9.42.41.226:5000:5000/jugg-web-connection/jugg-web-connection:latest
+        image: 9.42.41.226:5000/jugg-web-connection/jugg-web-connection:latest
         ports:
         - containerPort: 8080
 
