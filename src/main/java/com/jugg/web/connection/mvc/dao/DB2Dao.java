@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -102,15 +103,17 @@ public class DB2Dao {
     	
 		DruidDataSource dataSource = datasourceInit.testConnection(db2Connection);
 		Connection connection = dataSource.getConnection() ;
-		String sql = "SELECT current date FROM sysibm.sysdummy1;";
-		PreparedStatement ps = connection.prepareStatement(sql);
-     	logger.info("Executing database query...sql :"+ sql);
-        ResultSet rs = ps.executeQuery();
-        rs.close();
-        ps.close();
+		Statement statement = connection.createStatement();
+//		String sql = "SELECT CREATOR, TYPE, NAME, REMARKS FROM SYSIBM.SYSTABLES WHERE TYPE = 'T' AND CREATOR = ' "+ db2Connection.getUser_id() + "';";
+//		PreparedStatement ps = connection.prepareStatement(sql);
+//     	logger.info("Executing database query...sql :"+ sql);
+//        ResultSet rs = statement.executeQuery();
+//        rs.close();
+		statement.close();
         connection.close();
 		dataSource.close();
-    	
+		//移除GCRoot 引用
+		datasourceInit.removeDatasource(db2Connection);
     }
     
     

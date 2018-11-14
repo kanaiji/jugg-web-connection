@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ibm.db2.jcc.am.DisconnectNonTransientConnectionException;
 import com.ibm.db2.jcc.am.SqlInvalidAuthorizationSpecException;
 import com.ibm.db2.jcc.am.SqlNonTransientConnectionException;
+import com.ibm.db2.jcc.am.SqlSyntaxErrorException;
 import com.jugg.web.connection.mvc.dao.DB2Dao;
 import com.jugg.web.connection.mvc.dao.MongoDao;
 import com.jugg.web.connection.mvc.entity.ApiCommonResultVo;
@@ -68,6 +69,9 @@ public class ConnectionService {
 		} catch (SqlInvalidAuthorizationSpecException e) {
 			logger.error("DB2Dao|testConnection() happend error ....", e);
 			return new ApiCommonResultVo(-2, "user or password is incorrect", e.getMessage());
+		} catch (SqlSyntaxErrorException e) {
+			logger.error("DB2Dao|testConnection() happend error ....", e);
+			return new ApiCommonResultVo(-2, "db2 url invalid or no auth", e.getMessage());
 		} catch (DisconnectNonTransientConnectionException e) {
 			logger.error("DB2Dao|testConnection() happend error ....", e);
 			return new ApiCommonResultVo(-3, "unknow port or database", e.getMessage());

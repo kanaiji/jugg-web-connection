@@ -44,6 +44,6 @@ public class CommonConts {
 	
 	public static final int DB2_ERROR_CODE_CONNECTION = 403;   // unknow port or database
 	
-	public static final int DB2_ERROR_CODE_URL = 404;   // db2 url invalid
+	public static final int DB2_ERROR_CODE_URL = 404;   // db2 url invalid or no auth
 	
 }

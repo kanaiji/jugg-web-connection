@@ -93,7 +93,6 @@ public class DatasourceInit {
     }
     
     
-    
     // 回收connetion 对象
     public boolean closeConnection(Db2Connection db2Connection, Connection connettion) {
     	

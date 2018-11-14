@@ -20,20 +20,27 @@ pipeline{
             steps{
                 echo "start fetch code from git:${REPOSITORY}"
                 deleteDir()
-                git credentialsId: 'jugg-connection', url:"${REPOSITORY}"
+                git credentialsId: 'jugg-web-connection',  url:"${REPOSITORY}"
+            }
+        }
+        
+        stage('mvn ¹¹½¨ parrent'){
+            steps{
+                echo "start mvn install build..${MOUDEL_CONNECTION}"
+                sh "mvn -U -pl ${MOUDEL_CONNECTION} -am clean package -Dmaven.test.skip=true"
             }
         }
         
         stage('connection moudle: docker'){
             steps{
                 echo "build.sh...set fileformat=unix"
-                sh "dos2unix ${ROOT}/${MOUDEL_CONNECTION}/cicd/build.sh"
+                sh "fromdos ${ROOT}/${MOUDEL_CONNECTION}/build.sh"
                 
-                echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/build.sh..."
-                sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/build.sh"
+                echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/build.sh..."
+                sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/build.sh"
                 
-                echo "start docker build -t ..${ROOT}${MOUDEL_CONNECTION}/"
-                sh "${ROOT}/${MOUDEL_CONNECTION}/cicd/build.sh ${ROOT}"
+                echo "start docker build -t "
+                sh "${ROOT}/${MOUDEL_CONNECTION}/build.sh ${ROOT}"
            
             }
         }

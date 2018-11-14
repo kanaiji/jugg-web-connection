@@ -71,7 +71,7 @@ public class ConnectionTask {
 		} catch (SqlSyntaxErrorException e) {
 			logger.error("hapend db2 exception..." , e);
 			channel.basicAck(tag, false);
-			connectionPersist.sendError("db2 url invalid", e.getMessage(), CommonConts.DB2_ERROR_CODE_URL, msgVo);
+			connectionPersist.sendError("db2 url invalid or no auth", e.getMessage(), CommonConts.DB2_ERROR_CODE_URL, msgVo);
 			return;
 		} catch (Exception e) {
 			logger.warn("connection error for executeCount is max count... need send error msg to rabbitmq error_queue.");
