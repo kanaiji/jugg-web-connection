@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,79 +37,46 @@ public class DB2Dao {
      * @return the results the list of results
 	 * @throws SqlInvalidAuthorizationSpecException 
      */
-	public List<Map<String, String>> getDataResults(Db2Connection db2Connection, String sql) throws SqlInvalidAuthorizationSpecException {
+	public List<Map<String, String>> getDataResults(Db2Connection db2Connection, String sql) throws Exception {
 
-    	Connection connection = null ;
-    	
-        try {
-        	connection = datasourceInit.getDdatasource(db2Connection).getConnection();
+		Connection connection = null;
+
+		connection = datasourceInit.getDdatasource(db2Connection).getConnection();
 //        	connection = datasourceInit2.getDdatasource(db2Connection).getConnection();
-        	
-        	List<Map<String, String>> dataMaps = new ArrayList<Map<String, String>>();
-        	
-            try {
-            	
-            	sql = validationSql(sql);
-                PreparedStatement ps = connection.prepareStatement(sql);
-                try {
-                	logger.info("Executing database query..."+sql);
-                    ResultSet rs = ps.executeQuery();
-                    logger.info("Processing database results...");
-                    try {
-                    	
-                        ResultSetMetaData metaData = rs.getMetaData();
-                        int columnCount = metaData.getColumnCount();
-                        
-                        while (rs.next() == true) {
-                           
-                        	Map<String, String> data = Maps.newHashMap();
-                        	for(int count = 1; count <= columnCount; count++) {
-                        		String columName = metaData.getColumnLabel(count);
-                        		data.put(columName, rs.getInt(columName)+"");
-                        	}
-                            dataMaps.add(data);
-                        }
-                    	
-                    	/*Map<String, String> data = Maps.newHashMap();
-                    	if(rs.next()) {
-                    		data.put("count", rs.getInt(1)+"");
-//                    		data.put("count", rs.getObject(1)+"");
-                    		dataMaps.add(data);
-                    	}*/
-                        connection.commit();
-                        logger.info("DB2Operation|info|colums : " + dataMaps.toString());
-                        return dataMaps;
-                    } catch (Exception e) {
-                    	logger.error("process select sql data happen exception : ", e);
-                    	throw new RuntimeException("process select sql data happen exception");
-					}finally {
-                        rs.close();
-                    }
-                }catch (Exception e) {
-                	logger.error("run sql happen exception : ", e);
-                	throw new RuntimeException("run sql happen exception");
-				} finally {
-                    ps.close();
-                }
-            } finally {
-//                connection.close();
-            	datasourceInit.closeConnection(db2Connection, connection);
-            }
-        } catch (SqlInvalidAuthorizationSpecException e) {
-			
-			logger.error("hapend db2 exception..." + e.getMessage());
-//			datasourceInit.removeDatasource(db2Connection);
-			throw e;
-		} catch (Exception ex) {
-        	try {
-        		if(null != connection)
-				connection.rollback();
-			} catch (SQLException e) {
-				logger.error("DB2Operation|error|connection rollback exception : " , e);
+		List<Map<String, String>> dataMaps = new ArrayList<Map<String, String>>();
+
+		sql = validationSql(sql);
+		PreparedStatement ps = connection.prepareStatement(sql);
+		logger.info("Executing database query..." + sql);
+		ResultSet rs = ps.executeQuery();
+		logger.info("Processing database results...");
+
+		ResultSetMetaData metaData = rs.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		while (rs.next() == true) {
+
+			Map<String, String> data = Maps.newHashMap();
+			for (int count = 1; count <= columnCount; count++) {
+				String columName = metaData.getColumnLabel(count);
+				data.put(columName, rs.getInt(columName) + "");
 			}
-            throw new RuntimeException(ex);
-        }
-    }
+			dataMaps.add(data);
+		}
+
+		/*
+		 * Map<String, String> data = Maps.newHashMap(); if(rs.next()) {
+		 * data.put("count", rs.getInt(1)+""); // data.put("count", rs.getObject(1)+"");
+		 * dataMaps.add(data); }
+		 */
+		connection.commit();
+		logger.info("DB2Operation|info|colums : " + dataMaps.toString());
+		rs.close();
+		ps.close();
+//                connection.close();
+		datasourceInit.closeConnection(db2Connection, connection);
+		return dataMaps;
+	}
 
 	
 	//效验sql

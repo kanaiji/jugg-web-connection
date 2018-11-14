@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: web-connection
+  name: web-connection
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 80
+  selector:
+    app: web-connection
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jugg-web-connection-deployment
+spec:
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: web-connection
+    spec:
+      containers:
+      - name: jugg-web-connection
+        image: 9.42.41.226:5000:5000/jugg-web-connection/jugg-web-connection:latest
+        ports:
+        - containerPort: 8080
+

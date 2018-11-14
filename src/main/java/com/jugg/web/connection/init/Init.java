@@ -62,29 +62,21 @@ public class Init extends HttpServlet{
 	private void startThread() {
 		logger.warn("connection|startThread...");
 
-//		for (int i = 0; i < 1; i++) {
-			for (int i = 0; i < threadPool.getMaxPoolSize(); i++) {
+		for (int i = 0; i < 1; i++) {
+//			for (int i = 0; i < threadPool.getMaxPoolSize(); i++) {
 
 			threadPool.execute(new Runnable() {
 				
-				/** 当前执行次数 **/
-			    int executeCount = 0;
-				  
-			    /** 默认最大执行次数 3 **/
-			    int executeMaxCount = 3;
-			    
 				public void run() {
 					try {
 						while (true) {
 							ConnectionTask task = null ;
-							if(executeCount == 0){
-								Thread.sleep(1000);
+							Thread.sleep(1000);
 //								Thread.sleep(10000);
-								task = tasks.poll(); // 使用take方法获取过期任务,如果获取不到,就一直等待,知道获取到数据并删除
-								logger.warn("connection|executeCount={}|剩余大小==>tasks.size={}:", executeCount, tasks.size());
-							}
+							task = tasks.poll(); // 使用take方法获取过期任务,如果获取不到,就一直等待,知道获取到数据并删除
+							logger.warn("connection|executeCount={}|剩余大小==>tasks.size={}:", tasks.size());
 							if (task != null) {
-								task.run(executeCount, executeMaxCount); // 执行更新map
+								task.run(); // 执行更新map
 							}
 						}
 					} catch (Exception e) {

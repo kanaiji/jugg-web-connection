@@ -1,22 +1,17 @@
 #!/bin/bash
 
 ROOT=$1
-mvn -U -pl wsjc-web-supewisor -am clean package -Dmaven.test.skip=true
+mvn -U -am clean package -Dmaven.test.skip=true
 
-TIME=$(date "+%Y%m%d%H%M")
-
-echo "${TIME}"
-GIT_REVISION=$(git log -1 --pretty=format:"%h")
-echo "${GIT_REVISION}"
-IMAGE_NAME=www.znf4.top:5000/wsjc-web/web-supewisor:${TIME}_${GIT_REVISION}
+IMAGE_NAME=9.42.41.226:5000/jugg-web-connection/jugg-web-connection:latest
 
 echo "${IMAGE_NAME}" > IMAGE_NAME
 
-#jenkins 根目录/root/.jenkins/workspace/wsjc-boot
-cd ${ROOT}/wsjc-web-supewisor
+#jenkins 根目录/root/.jenkins/workspace/jugg-web-connection
+cd ${ROOT}/jugg-web-connection
 docker build -t ${IMAGE_NAME} .
 cd -
 
 docker push ${IMAGE_NAME}
 
-echo "web-supewisor" > MODULE
+echo "jugg-web-connection" > MODULE
