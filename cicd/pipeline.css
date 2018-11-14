@@ -24,10 +24,11 @@ pipeline{
             }
         }
         
-        stage('mvn 构建 parrent'){
+        stage('mvn 构建+依赖'){
             steps{
                 echo "start mvn install build..${MOUDEL_CONNECTION}"
-                sh "mvn -U -pl ${MOUDEL_CONNECTION} -am clean package -Dmaven.test.skip=true"
+                sh "mvn install:install-file -DgroupId=com.ibm.db2 -DartifactId=db2jcc -Dversion=10.1 -Dpackaging=jar -Dfile=${ROOT}/${MOUDEL_CONNECTION}/cicd/lib/db2jcc-10.1.jar"
+                sh "mvn clean package -Dmaven.test.skip=true"
             }
         }
         
