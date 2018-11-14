@@ -4,8 +4,11 @@ IMAGE=$(cat IMAGE_NAME)
 DEPLOYMENTS=$1
 MODULE=$(cat MODULE)
 
+echo "start deploy jugg connection...${DEPLOYMENTS}  ${MODULE}=${IMAGE}"
+
 #操作
 OPERATE=$2
+echo "OPERATE = ${OPERATE}"
 if [[ OPERATE == "apply" ]];then
     echo "kubectl apply -f /root/.jenkins/workspace/jugg-web-connection/cicd/jugg-web-connection-deployment.yaml"
          #第一次部署, 找 yaml

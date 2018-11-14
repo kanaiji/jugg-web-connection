@@ -3,3 +3,7 @@
 （提前安装好 jdk）
 
 ubantu 中 ：启动 jenkins 之前，要先配置好 maven , 否则 jenkins 不能执行 mvn 。
+
+ubantu 中 要 提前安装 apt-get install tofrodos
+
+centos 中 要 yum -y install dos2unix

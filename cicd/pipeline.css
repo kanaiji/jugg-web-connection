@@ -8,7 +8,6 @@ pipeline{
         REPOSITORY = "https://github.com/kanaiji/jugg-web-connection.git"
         ROOT = "/root/.jenkins/workspace"
         MOUDEL_CONNECTION = "jugg-web-connection"
-        SCRIPT_PATH="/root/.jenkins/workspace/jugg-web-connection/cicd"
         DEPLOYMENT_APP_JUGG_CONNECTION="jugg-web-connection-deployment"
         OPERATE_APPLY = "apply"
         OPERATE_update = "update"
@@ -48,9 +47,9 @@ pipeline{
         
         stage('connection moudle: deploy'){
             steps{
-                echo "start deploy.."
-                echo "build.sh...set fileformat=unix"
-                sh "dos2unix ${SCRIPT_PATH}/deploy.sh"
+                echo "*********************START deploy*********************"
+                echo "deploy.sh...set fileformat=unix"
+                sh "fromdos ${ROOT}/${MOUDEL_CONNECTION}/cicd/deploy.sh"
                 
                 echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/deploy.sh..."
                 sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/deploy.sh"
