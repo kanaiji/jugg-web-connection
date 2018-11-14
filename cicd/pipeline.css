@@ -10,7 +10,7 @@ pipeline{
         MOUDEL_CONNECTION = "jugg-web-connection"
         DEPLOYMENT_APP_JUGG_CONNECTION="jugg-web-connection-deployment"
         OPERATE_APPLY = "apply"
-        OPERATE_update = "update"
+        OPERATE_UPDATE = "update"
     }
     
     stages{
