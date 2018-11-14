@@ -12,4 +12,4 @@ echo "jugg-web-connection" > MODULE
 docker build -t ${IMAGE_NAME} .
 docker push ${IMAGE_NAME}
 
-cd-
+cd -

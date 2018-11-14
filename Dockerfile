@@ -8,9 +8,7 @@ RUN  rm -rf $DIR_WEBAPP/*   #删除webapp下所有文件，因为当前应用作
 
 ADD target/jugg-connection-0.0.1-SNAPSHOT.war $DIR_WEBAPP/jugg-connection.war
 
-RUN  unzip $DIR_WEBAPP/ROOT.war  -d  $DIR_WEBAPP/ROOT/
-
  #公开端口
 EXPOSE 8080
 #设置启动命令
-ENTRYPOINT ["/usr/tomcat/bin/catalina.sh","run"]
+ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh","run"]
