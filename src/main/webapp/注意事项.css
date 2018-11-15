@@ -2,8 +2,10 @@
 
 （提前安装好 jdk）
 
-ubantu 中 ：启动 jenkins 之前，要先配置好 maven , 否则 jenkins 不能执行 mvn 。
+ubantu 中 ：启动 jenkins 之前，要先配置好 maven , 否则 jenkins 不能执行 mvn, 因为jenkins 环境变量中没有该mvn 命令项 。
 
 ubantu 中 要 提前安装 apt-get install tofrodos
 
 centos 中 要 yum -y install dos2unix
+
+配置了宿主机 jdk , 就不用 在容器中考虑jdk 问题了，只需要考虑好 tomcat 和 war .

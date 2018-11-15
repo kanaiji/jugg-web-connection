@@ -17,6 +17,7 @@ pipeline{
         
         stage('git pull'){
             steps{
+                echo "*********************START pull jugg connection moudle form github*********************"
                 echo "start fetch code from git:${REPOSITORY}"
                 deleteDir()
                 git credentialsId: 'jugg-web-connection',  url:"${REPOSITORY}"
@@ -25,6 +26,7 @@ pipeline{
         
         stage('mvn ππΩ®+“¿¿µ'){
             steps{
+                echo "*********************START maven build java project*********************"
                 echo "start mvn install build..${MOUDEL_CONNECTION}"
                 sh "mvn install:install-file -DgroupId=com.ibm.db2 -DartifactId=db2jcc -Dversion=10.1 -Dpackaging=jar -Dfile=${ROOT}/${MOUDEL_CONNECTION}/cicd/lib/db2jcc-10.1.jar"
                 sh "mvn clean package -Dmaven.test.skip=true"
@@ -33,6 +35,7 @@ pipeline{
         
         stage('connection moudle: docker'){
             steps{
+                echo "*********************START buidl&push docker image*********************"
                 echo "build.sh...set fileformat=unix"
                 sh "fromdos ${ROOT}/${MOUDEL_CONNECTION}/build.sh"
                 

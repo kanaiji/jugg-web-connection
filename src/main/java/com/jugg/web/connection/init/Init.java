@@ -72,7 +72,7 @@ public class Init extends HttpServlet{
 						while (true) {
 							ConnectionTask task = null ;
 //							Thread.sleep(3000);
-								Thread.sleep(10000);
+							Thread.sleep(10000);
 							task = tasks.poll(); // 使用take方法获取过期任务,如果获取不到,就一直等待,知道获取到数据并删除
 							logger.warn("connection|executeCount={}|剩余大小==>tasks.size={}:", tasks.size());
 							if (task != null) {

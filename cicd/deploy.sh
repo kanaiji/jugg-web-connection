@@ -15,7 +15,7 @@ if [ ${OPERATE} == 'apply' ];then
    kubectl apply -f /root/.jenkins/workspace/jugg-web-connection/cicd/jugg-web-connection-deployment.yaml
 elif [ ${OPERATE} == 'update' ];then
     echo "kubectl set image deployments/${DEPLOYMENTS}  ${MODULE}=${IMAGE}"
-          # 直接更新版本 kubectl set image deployments/${DEPLOYMENTS}  ${MODULE}=${IMAGE}
+          # 直接更新版本
     kubectl set image deployments/${DEPLOYMENTS}  ${MODULE}=${IMAGE}
 else
     echo "Unknow argument...."
