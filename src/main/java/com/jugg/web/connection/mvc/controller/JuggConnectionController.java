@@ -91,7 +91,7 @@ public class JuggConnectionController {
 	 */
 	@RequestMapping("test")
 	@ResponseBody
-	public String test(String orderId) {
+	public String test() {
 		try {
 			Thread.sleep(3000L);
 			JSONObject json = new JSONObject();
@@ -106,10 +106,10 @@ public class JuggConnectionController {
 			
 			rmqProducterService.sendReceive(json.toJSONString());
 			
-			return "success";
+			return "大耍个";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "fail";
+			return "fail-丑逼";
 		}
 
 	}
