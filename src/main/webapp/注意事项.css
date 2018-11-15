@@ -9,3 +9,5 @@ ubantu 中 要 提前安装 apt-get install tofrodos
 centos 中 要 yum -y install dos2unix
 
 配置了宿主机 jdk , 就不用 在容器中考虑jdk 问题了，只需要考虑好 tomcat 和 war .
+
+tomcat 需要提前docker pull 下来， push 到 harbor 中。

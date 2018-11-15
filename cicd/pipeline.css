@@ -43,7 +43,7 @@ pipeline{
                 sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/build.sh"
                 
                 echo "start docker build -t "
-                sh "${ROOT}/${MOUDEL_CONNECTION}/build.sh ${ROOT}"
+                sh "${ROOT}/${MOUDEL_CONNECTION}/build.sh"
            
             }
         }
