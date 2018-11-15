@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html">
 	<meta charset="UTF-8">
-	<title>SpringBoot学习|登录</title>
+	<title>IBM-lewis</title>
 	<link rel="stylesheet" href="<%=contextPath%>/static/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<%=contextPath%>/static/css/style.min.css">
 	<script src="<%=contextPath%>/static/js/jquery/jquery-1.8.3.js"></script>
