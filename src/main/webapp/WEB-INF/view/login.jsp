@@ -37,7 +37,7 @@
             <br/>
             <br/>
             <div class = "animated bounceInLeft" onclick="boke();">
-                © 2017 All Rights Reserved. 邹海清|z77z的小码窝
+                © I Love YOU....i am agui.
             </div>
         </div>
     </div>
