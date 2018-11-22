@@ -124,11 +124,11 @@ public class JuggConnectionController {
 		try {
 //			Thread.sleep(3000L);
 			// 调用service
-			ReceiveQueueVo receiveQueueVo = new ReceiveQueueVo();
-			receiveQueueVo.setConnectionId("5b851eab39c4143c11479ead");
-			receiveQueueVo.setFileId("5b8520aa39c4143c11479eae");
-			String msg = JSONObject.toJSONString(receiveQueueVo);
-			rmqProducterService.sendReceive(msg);
+//			ReceiveQueueVo receiveQueueVo = new ReceiveQueueVo();
+//			receiveQueueVo.setConnectionId("5b851eab39c4143c11479ead");
+//			receiveQueueVo.setFileId("5b8520aa39c4143c11479eae");
+//			String msg = JSONObject.toJSONString(receiveQueueVo);
+//			rmqProducterService.sendReceive(msg);
 			return "login";
 		} catch (Exception e) {
 			e.printStackTrace();
