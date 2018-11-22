@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html">
 	<meta charset="UTF-8">
-	<title>IBM-lewis</title>
+	<title>Optimizer jugg connection 后台管理</title>
 	<link rel="stylesheet" href="<%=contextPath%>/static/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<%=contextPath%>/static/css/style.min.css">
 	<script src="<%=contextPath%>/static/js/jquery/jquery-1.8.3.js"></script>
@@ -37,7 +37,7 @@
             <br/>
             <br/>
             <div class = "animated bounceInLeft" onclick="boke();">
-                © I Love YOU....i am agui.
+                © I Love YOU....i am agui----.
             </div>
         </div>
     </div>
