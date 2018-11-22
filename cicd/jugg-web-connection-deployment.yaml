@@ -6,10 +6,10 @@ metadata:
   name: web-connection
 spec:
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
     targetPort: 8080
-    nodePort: 80
+    nodePort: 8080
   selector:
     app: web-connection
   type: NodePort
