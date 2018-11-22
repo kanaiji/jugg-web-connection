@@ -1,10 +1,12 @@
 package com.jugg.web.connection.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
  
 /**
@@ -43,16 +45,16 @@ public class MvcConfig extends WebMvcConfigurationSupport {
      * @param:
      * @return:
      */
-   /* public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    	registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
-        放行swagger
-        registry.addResourceHandler("swagger-ui.html")
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+        registry.addResourceHandler("/templates/**").addResourceLocations("/templates/");
+//        放行swagger
+        /*registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");*/
         super.addResourceHandlers(registry);
-    }*/
+    }
  
    /* public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
@@ -87,7 +89,24 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     }
     
     
-    
+    /**
+	 * 配置JSP视图解析器
+	 * 如果没有配置视图解析器。Spring会使用BeanNameViewResolver，通过查找ID与逻辑视图名称匹配且实现了View接口的beans
+	 * 
+	 * @return
+	 */
+    private static final String prefix = "/WEB-INF/view/";
+    private static final String suffix = ".jsp";
+	@Bean
+	public InternalResourceViewResolver setupViewResolver() {
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		/** 设置视图路径的前缀 */
+		resolver.setPrefix(prefix);
+		/** 设置视图路径的后缀 */
+		resolver.setSuffix(suffix);
+		return resolver;
+
+	}
     
     
     
