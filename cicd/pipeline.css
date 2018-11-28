@@ -27,7 +27,7 @@ pipeline{
                 echo "*********************START pull jugg connection moudle form github*********************"
                 echo "start fetch code from git:${REPOSITORY}"
                 deleteDir()
-                git credentialsId: 'jugg-web-connection',  url:"${REPOSITORY}"
+                git credentialsId: 'jugg-web-connection', url:"${REPOSITORY}"
             }
         }
         
