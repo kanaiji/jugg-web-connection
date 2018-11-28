@@ -5,7 +5,7 @@ HARBOR_IP=$1
 echo "${HARBOR_IP}"
 IMAGE_LATEST=${HARBOR_IP}:5000/jugg-web-connection/jugg-web-connection:latest
 
-docker build -f ${DOCKERFILE_PATH}/Dockerfile  -t ${IMAGE_LATEST} .
+docker build -f cicd/${DOCKERFILE_PATH}/Dockerfile  -t ${IMAGE_LATEST} .
 docker push ${IMAGE_LATEST}
 echo "update image latest success, op have build and push ${HARBOR_IP} harbor"
 

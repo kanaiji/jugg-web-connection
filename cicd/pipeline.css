@@ -9,8 +9,9 @@ pipeline{
         ROOT = "/root/.jenkins/workspace"
         MOUDEL_CONNECTION = "jugg-web-connection"
         DEPLOYMENT_APP_JUGG_CONNECTION="jugg-web-connection-deployment"
-        OPERATE_APPLY = "apply"
-        OPERATE_UPDATE = "update"
+        
+        // apply:第一次发布  update: 更新
+        OPERATE = "apply"
         
         // dev pro
         ENVIRONMENT = "dev"
@@ -63,7 +64,7 @@ pipeline{
                 
                 echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh..."
                 sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh"
-                sh "${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh ${DEPLOYMENT_APP_JUGG_CONNECTION} ${OPERATE_APPLY}"
+                sh "${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh ${DEPLOYMENT_APP_JUGG_CONNECTION} ${OPERATE}"
             }
         }
         
