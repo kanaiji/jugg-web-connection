@@ -12,11 +12,11 @@ pipeline{
         OPERATE_APPLY = "apply"
         OPERATE_UPDATE = "update"
         
+        // dev pro
+        ENVIRONMENT = "dev"
+        
         //9.42.41.226 : dev,  9.42.78.24 : pro
         HARBOR_IP = "9.42.41.226"
-        
-        // dev pro
-        DEPLOY_SH_LOCATION = "dev"
         
     }
     
@@ -50,7 +50,7 @@ pipeline{
                 sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/build.sh"
                 
                 echo "start docker build -t "
-                sh "${ROOT}/${MOUDEL_CONNECTION}/build.sh ${HARBOR_IP}"
+                sh "${ROOT}/${MOUDEL_CONNECTION}/build.sh ${HARBOR_IP} ${ENVIRONMENT}"
            
             }
         }
@@ -59,11 +59,11 @@ pipeline{
             steps{
                 echo "*********************START deploy*********************"
                 echo "deploy.sh...set fileformat=unix"
-                sh "fromdos ${ROOT}/${MOUDEL_CONNECTION}/cicd/deploy.sh"
+                sh "fromdos ${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh"
                 
-                echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${DEPLOY_SH_LOCATION}/deploy.sh..."
-                sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${DEPLOY_SH_LOCATION}/deploy.sh"
-                sh "${ROOT}/${MOUDEL_CONNECTION}/cicd/deploy.sh ${DEPLOYMENT_APP_JUGG_CONNECTION} ${OPERATE_APPLY}"
+                echo "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh..."
+                sh "chmod 777 ${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh"
+                sh "${ROOT}/${MOUDEL_CONNECTION}/cicd/${ENVIRONMENT}/deploy.sh ${DEPLOYMENT_APP_JUGG_CONNECTION} ${OPERATE_APPLY}"
             }
         }
         
