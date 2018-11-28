@@ -1,6 +1,7 @@
 #!/bin/bash
 
 HARBOR_IP=$1
+DOCKERFILE_PATH=$2
 
 echo "${HARBOR_IP}"
 IMAGE_LATEST=${HARBOR_IP}:5000/jugg-web-connection/jugg-web-connection:latest
@@ -18,7 +19,6 @@ IMAGE_NAME=${HARBOR_IP}:5000/jugg-web-connection/jugg-web-connection:${TIME}_${G
 echo "${IMAGE_NAME}" > IMAGE_NAME
 echo "jugg-web-connection" > MODULE
 
-DOCKERFILE_PATH=$2
 echo "环境 --- ${DOCKERFILE_PATH}"
 docker build -f cicd/${DOCKERFILE_PATH}/Dockerfile  -t ${IMAGE_NAME} .
 docker push ${IMAGE_NAME}
