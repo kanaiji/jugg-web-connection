@@ -19,6 +19,7 @@ echo "${IMAGE_NAME}" > IMAGE_NAME
 echo "jugg-web-connection" > MODULE
 
 DOCKERFILE_PATH=$2
-docker build -f ${DOCKERFILE_PATH}/Dockerfile  -t ${IMAGE_NAME} .
+echo "环境 --- ${DOCKERFILE_PATH}"
+docker build -f cicd/${DOCKERFILE_PATH}/Dockerfile  -t ${IMAGE_NAME} .
 docker push ${IMAGE_NAME}
 
