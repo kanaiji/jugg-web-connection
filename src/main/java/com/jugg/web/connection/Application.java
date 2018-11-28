@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 //解決，当spring创建dataSource bean因缺少相关的信息就会报错。 implements CommandLineRunner
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class, MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+//解析application.properties 文件
 @EnableConfigurationProperties
 public class Application extends SpringBootServletInitializer{
 	// 入口
