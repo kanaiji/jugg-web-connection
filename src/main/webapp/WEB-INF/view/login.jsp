@@ -37,7 +37,7 @@
             <br/>
             <br/>
             <div class = "animated bounceInLeft" onclick="boke();">
-                © tomory go back home .
+                © tomory go back home . 测试环境--测试水平更新
             </div>
         </div>
     </div>

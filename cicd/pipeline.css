@@ -10,14 +10,16 @@ pipeline{
         MOUDEL_CONNECTION = "jugg-web-connection"
         DEPLOYMENT_APP_JUGG_CONNECTION="jugg-web-connection-deployment"
         
-        // apply:第一次发布  update: 更新
-        OPERATE = "apply"
-        
         // dev pro
         ENVIRONMENT = "dev"
         
         //9.42.41.226 : dev,  9.42.78.24 : pro
         HARBOR_IP = "9.42.41.226"
+        
+        // apply:第一次发布  update: 更新
+        OPERATE = "apply"
+        
+        
         
     }
     
