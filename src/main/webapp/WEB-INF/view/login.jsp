@@ -37,7 +37,7 @@
             <br/>
             <br/>
             <div class = "animated bounceInLeft" onclick="boke();">
-                © I Love YOU....i am agui----.
+                © tomory go back home .
             </div>
         </div>
     </div>
