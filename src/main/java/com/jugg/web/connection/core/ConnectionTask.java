@@ -50,36 +50,32 @@ public class ConnectionTask {
 			/** 执行sql **/
 			connectionPersist.runSql(msgVo);
 			// 重置为0，开始下一个task的处理
-			channel.basicAck(tag, false); 
+//			channel.basicAck(tag, false);
 			logger.info("consumer recive queue message success.. basicAck delete this message");
 			
 		} catch (SqlInvalidAuthorizationSpecException e) {
 			logger.error("hapend db2 exception..." , e);
-			channel.basicAck(tag, false);
 			connectionPersist.sendError("user or password is incorrect", e.getMessage(), CommonConts.DB2_ERROR_CODE_AUTH, msgVo);
 			return;
 		} catch (SqlNonTransientConnectionException e) {
 			logger.error("hapend db2 exception..." , e);
-			channel.basicAck(tag, false);
 			connectionPersist.sendError("unknow hostname", e.getMessage(), CommonConts.DB2_ERROR_CODE_CONNECTION, msgVo);
 			return;
 		} catch (DisconnectNonTransientConnectionException e) {
 			logger.error("hapend db2 exception..." , e);
-			channel.basicAck(tag, false);
 			connectionPersist.sendError("unknow port or database", e.getMessage(), CommonConts.DB2_ERROR_CODE_HOSTNAME, msgVo);
 			return;
 		} catch (SqlSyntaxErrorException e) {
 			logger.error("hapend db2 exception..." , e);
-			channel.basicAck(tag, false);
 			connectionPersist.sendError("db2 url invalid or no auth", e.getMessage(), CommonConts.DB2_ERROR_CODE_URL, msgVo);
 			return;
 		} catch (Exception e) {
 			logger.warn("connection error for executeCount is max count... need send error msg to rabbitmq error_queue.");
-			channel.basicAck(tag, false);
 			//send error msg to error queue..again recive
 			connectionPersist.sendError("run max again, still hapend error", "unknow..look up log file ", CommonConts.DB2_ERROR_CODE_UNKNOW, msgVo);
 			return;
-
+		}finally {
+			channel.basicAck(tag, false);
 		}
 
 	}
